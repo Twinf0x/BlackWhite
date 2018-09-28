@@ -5,10 +5,12 @@ var wall_scene = preload("res://GameObjects/Wall.tscn")
 var goal_scene = preload("res://GameObjects/Goal.tscn")
 var black_player_scene = preload("res://GameObjects/BlackPlayer.tscn")
 var white_player_scene = preload("res://GameObjects/WhitePlayer.tscn")
+var victory_popup_scene = preload("res://GUI/VictoryDialog.tscn")
 
 onready var block_parent = get_node("Blocks")
 onready var goal_parent = get_node("Goals")
 onready var player_parent = get_node("Players")
+onready var gui_parent = get_node("GUI")
 
 var current_goals = {}
 
@@ -29,6 +31,9 @@ func check_victory():
 	win()
 
 func win():
+	var dialog = victory_popup_scene.instance()
+	gui_parent.add_child(dialog)
+	dialog.popup()
 	print("You won!")
 
 func setup_test_level():
