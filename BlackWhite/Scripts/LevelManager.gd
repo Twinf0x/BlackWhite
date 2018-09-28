@@ -10,10 +10,26 @@ onready var block_parent = get_node("Blocks")
 onready var goal_parent = get_node("Goals")
 onready var player_parent = get_node("Players")
 
+var current_goals = {}
+
 func _ready():
 	print("Setting up test level")
 	setup_test_level()
 
+func add_goal(goal):
+	var next_id = current_goals.size()
+	goal.id = next_id
+	current_goals[next_id] = goal
+
+func check_victory():
+	for key in current_goals:
+		if not current_goals[key].goal_reached:
+			return
+	
+	win()
+
+func win():
+	print("You won!")
 
 func setup_test_level():
 	#setup level
@@ -34,16 +50,22 @@ func setup_test_level():
 			var wall = wall_scene.instance()
 			wall.set_grid_position(pos)
 			block_parent.add_child(wall)
+	
 	#setup goals
 	var goal = goal_scene.instance()
 	goal_parent.add_child(goal)
 	goal.position = Vector2(64, 128)
 	goal.set_color(goal.goal_color.WHITE)
+	goal.connect("player_enters", self, "check_victory")
+	add_goal(goal)
 	
 	goal = goal_scene.instance()
 	goal_parent.add_child(goal)
 	goal.position = Vector2(192, 64)
 	goal.set_color(goal.goal_color.BLACK)
+	goal.connect("player_enters", self, "check_victory")
+	add_goal(goal)
+	
 	#setup players
 	var player = white_player_scene.instance()
 	player_parent.add_child(player)
