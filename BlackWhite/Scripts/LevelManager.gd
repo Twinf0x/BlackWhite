@@ -2,10 +2,12 @@ extends Node2D
 
 var block_scene = preload("res://GameObjects/ChangingBlock.tscn")
 var wall_scene = preload("res://GameObjects/Wall.tscn")
+var goal_scene = preload("res://GameObjects/Goal.tscn")
 var black_player_scene = preload("res://GameObjects/BlackPlayer.tscn")
 var white_player_scene = preload("res://GameObjects/WhitePlayer.tscn")
 
 onready var block_parent = get_node("Blocks")
+onready var goal_parent = get_node("Goals")
 onready var player_parent = get_node("Players")
 
 func _ready():
@@ -32,6 +34,16 @@ func setup_test_level():
 			var wall = wall_scene.instance()
 			wall.set_grid_position(pos)
 			block_parent.add_child(wall)
+	#setup goals
+	var goal = goal_scene.instance()
+	goal_parent.add_child(goal)
+	goal.position = Vector2(64, 128)
+	goal.set_color(goal.goal_color.WHITE)
+	
+	goal = goal_scene.instance()
+	goal_parent.add_child(goal)
+	goal.position = Vector2(192, 64)
+	goal.set_color(goal.goal_color.BLACK)
 	#setup players
 	var player = white_player_scene.instance()
 	player_parent.add_child(player)
