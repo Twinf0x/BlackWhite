@@ -1,4 +1,4 @@
-extends Node2D
+extends "Block.gd"
 
 enum goal_color {BLACK, WHITE}
 

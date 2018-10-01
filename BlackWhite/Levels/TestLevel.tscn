@@ -5,6 +5,7 @@
 [node name="TestLevel" type="Node2D" index="0"]
 
 script = ExtResource( 1 )
+level_number = 0
 
 [node name="Blocks" type="Node2D" parent="." index="0"]
 

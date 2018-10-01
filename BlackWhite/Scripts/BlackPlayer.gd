@@ -1,4 +1,4 @@
-extends KinematicBody2D
+extends "Block.gd"
 
 export (int) var speed = 200
 
