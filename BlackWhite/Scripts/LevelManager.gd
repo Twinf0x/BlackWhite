@@ -7,6 +7,8 @@ var wall_scene = preload("res://GameObjects/Wall.tscn")
 var goal_scene = preload("res://GameObjects/Goal.tscn")
 var black_player_scene = preload("res://GameObjects/BlackPlayer.tscn")
 var white_player_scene = preload("res://GameObjects/WhitePlayer.tscn")
+var black_tutorial = preload("res://GUI/BlackTutorial.tscn")
+var white_tutorial = preload("res://GUI/WhiteTutorial.tscn")
 var victory_popup_scene = preload("res://GUI/VictoryDialog.tscn")
 
 onready var block_parent = get_node("Blocks")
@@ -15,6 +17,7 @@ onready var player_parent = get_node("Players")
 onready var gui_parent = get_node("GUI")
 
 var current_goals = {}
+var data_path = "res://Levels/Data/{lvl}.txt"
 
 func _ready():
 	if level_number == 0:
@@ -103,5 +106,56 @@ func setup_test_level():
 	add_player(1, 1, false)
 	add_player(3, 2, true)
 
-func setup_level(level_path):
-	pass
+func setup_level(level_number):
+	var level_path = data_path.format({"lvl": level_number})
+	var file = File.new()
+	if not file.file_exists(level_path):
+		print ("File not found...")
+		return
+	
+	clear_level()
+	file.open(level_path, file.READ)
+	
+	#setup level
+	var x = 0
+	var y = 0
+	while not file.eof_reached():
+		var line = file.get_line()
+		if "end" in line:
+			break
+		for ch in line:
+			match ch:
+				"l":
+					add_wall(x, y)
+				"b":
+					add_block(x, y, true)
+				"w":
+					add_block(x, y, false)
+			x += 1
+		x = 0
+		y += 1
+	
+	#setup players and goals
+	while not file.eof_reached():
+		var line = file.get_line()
+		if "end" in line:
+			break
+		var player_data = line.split(':')
+		var is_black = player_data[0] == "black"
+		var temp = player_data[1].split(',')
+		add_player(temp[0], temp[1], is_black)
+		temp = player_data[2].split(',')
+		add_goal(temp[0], temp[1], is_black)
+	
+	#add extras
+	while not file.eof_reached():
+		var line = file.get_line()
+		match line:
+			"black_tutorial":
+				var tutorial = black_tutorial.instance()
+				gui_parent.add_child(tutorial)
+			"white_tutorial":
+				var tutorial = white_tutorial.instance()
+				gui_parent.add_child(tutorial)
+	
+	file.close()

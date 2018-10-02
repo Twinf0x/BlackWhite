@@ -32,11 +32,11 @@ _sections_unfolded = [ "Collision" ]
 
 shape = SubResource( 1 )
 
-[node name="WhiteSprite" type="Sprite" parent="." index="1"]
+[node name="BlackSprite" type="Sprite" parent="." index="1"]
 
 texture = ExtResource( 2 )
 
-[node name="BlackSprite" type="Sprite" parent="." index="2"]
+[node name="WhiteSprite" type="Sprite" parent="." index="2"]
 
 texture = ExtResource( 3 )
 

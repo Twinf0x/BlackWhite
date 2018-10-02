@@ -31,14 +31,14 @@ func set_color(color):
 		goal_color.WHITE:
 			black_sprite.hide()
 			white_sprite.show()
-			detection.set_collision_layer_bit(3, true)
-			detection.set_collision_layer_bit(2, false)
-			detection.set_collision_mask_bit(3, true)
-			detection.set_collision_mask_bit(2, false)
-		goal_color.BLACK:
-			black_sprite.show()
-			white_sprite.hide()
 			detection.set_collision_layer_bit(2, true)
 			detection.set_collision_layer_bit(3, false)
 			detection.set_collision_mask_bit(2, true)
 			detection.set_collision_mask_bit(3, false)
+		goal_color.BLACK:
+			black_sprite.show()
+			white_sprite.hide()
+			detection.set_collision_layer_bit(3, true)
+			detection.set_collision_layer_bit(2, false)
+			detection.set_collision_mask_bit(3, true)
+			detection.set_collision_mask_bit(2, false)
